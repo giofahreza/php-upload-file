@@ -1,4 +1,13 @@
 <?php
+
+function dump($data, $die=true){
+    echo '<pre>';
+    var_dump($data);
+    echo '</pre>';
+
+    if($die) die();
+}
+
 function validateAltText($altText) {
     if (empty($altText)) {
         return "Alternate text cannot be empty.";
@@ -22,13 +31,18 @@ function validateFileSize($fileSize, $maxSize) {
 }
 
 function generateDateCode() {
-    return date('d/m/Y');
+    return date('dmY');
 }
 
 function uploadFile($file) {
     $uploadDir = 'uploads/';
     $fileName = generateDateCode() . '_' . uniqid() . '_' . $file['name'];
+    // $fileName = $file['name'];
     $filePath = $uploadDir . $fileName;
+
+    if ( !is_dir( $uploadDir ) ) {
+        mkdir( $uploadDir );
+    }
 
     if (move_uploaded_file($file['tmp_name'], $filePath)) {
         return $filePath;
@@ -38,7 +52,7 @@ function uploadFile($file) {
 }
 
 try {
-    $pdo = new PDO('mysql:host=localhost;dbname=your_database', 'your_username', 'your_password');
+    $pdo = new PDO('mysql:host=localhost;dbname=tazkiya', 'root', '');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     die("Database connection failed: " . $e->getMessage());

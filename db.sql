@@ -1,5 +1,3 @@
-USE tazkiya;
-
 CREATE TABLE images (
     id INT AUTO_INCREMENT PRIMARY KEY,
     path VARCHAR(255) NOT NULL,
